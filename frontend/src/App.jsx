@@ -1,5 +1,6 @@
 import './App.css'
 import BrandContainer from './components/BrandContainer/BrandContainer'
+import ExploreVehicles from './components/ExploreVehicles/ExploreVehicles'
 import Navbar from './components/Navbar/Navbar'
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
     <>
       <Navbar />
       <BrandContainer />
+      <ExploreVehicles />
     </>
   )
 }
