@@ -6,8 +6,52 @@ import { PiCarProfileBold } from "react-icons/pi";
 import { FaCarSide } from "react-icons/fa";
 import { FaTruckPickup } from "react-icons/fa";
 import { TbCarFilled } from "react-icons/tb";
+import AuthenticationModal from "../Authentication/AuthenticationModal";
+import { useState } from "react";
+import ListingModal from "../CreateListing/ListingModal";
 
 const Navbar = () => {
+
+  let user = sessionStorage.getItem("User");
+
+  const [authModalIsOpen, setAuthModalIsOpen] = useState(false);
+  const [listingModalIsOpen, setlistingModalIsOpen] = useState(false);
+
+  function openAuthModal() {
+    setAuthModalIsOpen(true);
+  };
+
+  function openListingModal() {
+    setlistingModalIsOpen(true);
+  };
+
+  function closeAuthModal() {
+    setAuthModalIsOpen(false);
+  };
+
+  function closeListingModal() {
+    setlistingModalIsOpen(false);
+  };
+
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    openAuthModal();
+  };
+
+  const handleSignOut = (e) => {
+    e.preventDefault();
+    sessionStorage.removeItem("User");
+    window.location.reload();
+  };
+
+  const handleListing = (e) => {
+    if (user) {
+      openListingModal();
+    } else {
+      openAuthModal();
+    };
+  };
+
   return (
     <div className="bg-[url(./Background.jpg)] font-display">
       <div className="flex h-26 justify-between items-center">
@@ -23,8 +67,17 @@ const Navbar = () => {
             <li>About</li>
             <li>Contact</li>
           </ul>
-          <a href="#" className="text-white flex"><i className="p-0.5 pr-2"><FaRegUser /></i>Sign In</a>
-          <button className="bg-white rounded-full px-6 py-3 font-medium mr-14">Submit Listing</button>
+
+          {user ? 
+
+            <a onClick={handleSignOut} className="text-white flex cursor-pointer"><i className="p-0.5 pr-2"><FaRegUser /></i>Sign Out</a>
+            :
+            <a onClick={handleSignIn} className="text-white flex cursor-pointer"><i className="p-0.5 pr-2"><FaRegUser /></i>Sign In</a>
+          }
+
+          
+          
+          <button onClick={handleListing} className="bg-white rounded-full px-6 py-3 font-medium mr-14">Submit Listing</button>
         </div>
       </div>
       <div>
@@ -108,8 +161,10 @@ const Navbar = () => {
         <button className="flex items-center bg-[#FFFFFF2E] hover:bg-[#FFFFFF4E] transition delay-150 duration-300 px-8 py-0.5 rounded-full"><i className="text-2xl m-2"><FaTruckPickup /></i>Coupe</button>
         <button className="flex items-center bg-[#FFFFFF2E] hover:bg-[#FFFFFF4E] transition delay-150 duration-300 px-8 py-0.5 rounded-full"><i className="text-2xl m-2"><TbCarFilled /></i>Hybrid</button>
       </div>
-
+      <AuthenticationModal authModalIsOpen={authModalIsOpen} closeAuthModal={closeAuthModal}/>
+      <ListingModal listingModalIsOpen={listingModalIsOpen} closeListingModal={closeListingModal} />
     </div>
+
   );
 };
 

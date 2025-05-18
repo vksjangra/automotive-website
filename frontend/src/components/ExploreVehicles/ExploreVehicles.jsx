@@ -1,7 +1,15 @@
 import { BsArrowUpRight } from "react-icons/bs";
 import VehicleCard from "./VehicleCard";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+import { useRef } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import VehicleModal from "../VehicleModal/VehicleModal";
 
-const vehicles = 
+const BASE_URL = `${import.meta.env.VITE_BACKEND_BASE_URL}:${import.meta.env.VITE_BACKEND_PORT}`;
+
+
 
 const links = [
     {
@@ -24,6 +32,37 @@ const handleLink = (e) => {
 }
 
 const ExploreVehicles = () => {
+
+    const [data, setData] = useState();
+
+    const [selectedVehicle, setSelectedVehicle] = useState(null);
+
+    useEffect(() => {
+        const grabData = async () => {
+            console.log(BASE_URL + "/vehicles");
+            const response = await axios.get(BASE_URL + "/vehicles");
+            console.log(response);
+            if (response.status === 200) {
+                setData(response.data);
+            }
+        };
+
+        grabData();
+
+    }, []);
+
+    const scrollRef = useRef();
+
+        const scroll = direction => {
+            const { current } = scrollRef;
+
+            if (direction === "left") {
+                current.scrollBy({ left: -300, behaviour: "smooth" });
+            } else {
+                current.scrollBy({ left: 300, behaviour: "smooth" });
+            };
+        };
+
     return (
         <div>
             <div className="px-5 pb-7 flex items-center justify-between">
@@ -40,9 +79,18 @@ const ExploreVehicles = () => {
                     ))}
                 </ul>
             </div>
-            <div>
-                <VehicleCard />
+            <div ref={scrollRef} className="mt-10 flex overflow-x-auto scroll-smooth whitespace-nowrap no-scrollbar">
+                {data && data.map((vehicle, i) => (
+                    <div key={i} onClick={() => setSelectedVehicle(vehicle)}>
+                        <VehicleCard vehicle={vehicle}/>    
+                    </div>
+                ))}
             </div>
+            <div className="m-4 mt-8">
+                <button className="border border-gray-200 p-2 px-3 rounded-full cursor-pointer mr-2 hover:border-blue-500 transition duration-100" onClick={() => scroll("left")}><FaChevronLeft size={18}/></button>
+                <button className="border border-gray-200 p-2 px-3 rounded-full cursor-pointer hover:border-blue-500 transition duration-100" onClick={() => scroll("right")}><FaChevronRight size={18}/></button>
+            </div>
+            <VehicleModal vehicle={selectedVehicle} onClose={() => setSelectedVehicle(null)}/>
             <div className="h-20"></div>
         </div>
     );
