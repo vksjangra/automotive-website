@@ -87,7 +87,7 @@ const Navbar = () => {
 
           
           
-          <button onClick={handleListing} className="bg-white rounded-full px-6 py-3 font-medium mr-14">Submit Listing</button>
+          <button onClick={handleListing} className="bg-white rounded-full px-6 py-3 font-medium mr-14 cursor-pointer">Submit Listing</button>
         </div>
       </div>
       <div>
