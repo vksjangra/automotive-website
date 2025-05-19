@@ -17,7 +17,7 @@ ATLAS_URI=mongodb+srv://vikasjangraa:<password>@emailflowcluster.1rjtnpx.mongodb
 
 PORT=3000
 
-SECRET_KEY=
+SECRET_KEY=1234567890
 
 
 
