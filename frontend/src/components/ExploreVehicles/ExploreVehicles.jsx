@@ -83,9 +83,6 @@ const ExploreVehicles = () => {
             </div>
             <div className="px-3 font-medium text-[15px]">
                 <ul className="flex border-b-1 pb-2 border-gray-200 gap-7">
-                    <li><a className="active" href="stock" onClick={handleLink}>In Stock</a></li>
-                    <li><a href="new" onClick={handleLink}>New Cars</a></li>
-                    <li><a href="user" onClick={handleLink}>Used Cars</a></li>
                     {links.map((link, i) => (
                         <li className={link.isActive ? "border-b-2 border-blue-500 pb-2" : ""} key={i}><a>{link.name}</a></li>
                     ))}
