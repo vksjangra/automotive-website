@@ -9,20 +9,26 @@ import { TbCarFilled } from "react-icons/tb";
 import AuthenticationModal from "../Authentication/AuthenticationModal";
 import { useState } from "react";
 import ListingModal from "../CreateListing/ListingModal";
+import InquiriesModal from "../InquiriesContainer/InquiriesModal";
 
 const Navbar = () => {
 
   let user = sessionStorage.getItem("User");
 
   const [authModalIsOpen, setAuthModalIsOpen] = useState(false);
-  const [listingModalIsOpen, setlistingModalIsOpen] = useState(false);
+  const [listingModalIsOpen, setListingModalIsOpen] = useState(false);
+  const [inquiriesModalIsOpen, setInquiriesModalIsOpen] = useState(false);
 
   function openAuthModal() {
     setAuthModalIsOpen(true);
   };
 
   function openListingModal() {
-    setlistingModalIsOpen(true);
+    setListingModalIsOpen(true);
+  };
+
+  function openInquiriesModal() {
+    setInquiriesModalIsOpen(true);
   };
 
   function closeAuthModal() {
@@ -30,7 +36,11 @@ const Navbar = () => {
   };
 
   function closeListingModal() {
-    setlistingModalIsOpen(false);
+    setListingModalIsOpen(false);
+  };
+
+  function closeInquiriesModal() {
+    setInquiriesModalIsOpen(false);
   };
 
   const handleSignIn = (e) => {
@@ -60,8 +70,8 @@ const Navbar = () => {
         </div>
         <div className="flex gap-7 items-center text-nowrap">
           <ul className="flex gap-6 text-white font-medium">
-            <li className="flex">Home<i className="m-1"><IoMdArrowDropdown /></i></li>
-            <li className="flex">Listings<i className="m-1"><IoMdArrowDropdown /></i></li>
+            <li className="flex"><a href="/">Home</a><i className="m-1"><IoMdArrowDropdown /></i></li>
+            <li className="flex">{user ? <button className="cursor-pointer" onClick={openInquiriesModal}>Inquiries</button> : "Listings"}<i className="m-1"><IoMdArrowDropdown /></i></li>
             <li className="flex">Blog<i className="m-1"><IoMdArrowDropdown /></i></li>
             <li className="flex">Pages<i className="m-1"><IoMdArrowDropdown /></i></li>
             <li>About</li>
@@ -163,6 +173,7 @@ const Navbar = () => {
       </div>
       <AuthenticationModal authModalIsOpen={authModalIsOpen} closeAuthModal={closeAuthModal}/>
       <ListingModal listingModalIsOpen={listingModalIsOpen} closeListingModal={closeListingModal} />
+      <InquiriesModal inquiriesModalIsOpen={inquiriesModalIsOpen} closeInquiriesModal={closeInquiriesModal}/>
     </div>
 
   );

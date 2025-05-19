@@ -2,7 +2,7 @@ const express = require("express");
 const database = require("./connect");
 const ObjectId = require("mongodb").ObjectId;
 const jwt = require("jsonwebtoken");
-require("dotenv").config({path: "./config.env"});
+require("dotenv").config({ path: "./config.env" });
 
 
 let vehicleRoutes = express.Router();
@@ -23,7 +23,7 @@ vehicleRoutes.route("/vehicles").get(async (request, response) => {
 // #2: Retrieve One
 vehicleRoutes.route("/vehicles/:id").get(async (request, response) => {
     let db = database.getDB();
-    let data = await db.collection("vehicles").findOne({__id: new ObjectId(request.params.id)});
+    let data = await db.collection("vehicles").findOne({ __id: new ObjectId(request.params.id) });
     if (data && Object.keys(data).length > 0) {
         response.json(data);
     } else {
@@ -37,12 +37,16 @@ vehicleRoutes.route("/vehicles").post(verifyToken, async (request, response) => 
     let db = database.getDB();
     let mongoObject = {
         name: request.body.name,
+        price: request.body.price,
+        model: request.body.model,
         brand: request.body.brand,
         description: request.body.description,
         details: request.body.details,
         mileage: request.body.mileage,
         fuel: request.body.fuel,
-        transmission: request.body.transmission
+        transmission: request.body.transmission,
+        image: request.body.image,
+        seller: request.body.user._id
     };
     let data = await db.collection("vehicles").insertOne(mongoObject);
     response.json(data);
@@ -55,16 +59,19 @@ vehicleRoutes.route("/vehicles/:id").put(verifyToken, async (request, response) 
     let mongoObject = {
         $set: {
             name: request.body.name,
+            price: request.body.price,
+            model: request.body.model,
             brand: request.body.brand,
             description: request.body.description,
             details: request.body.details,
             mileage: request.body.mileage,
             fuel: request.body.fuel,
             transmission: request.body.transmission,
-            seller: request.body.user.__id
-        }   
+            image: request.body.image,
+            seller: request.body.user._id
+        }
     };
-    let data = await db.collection("vehicles").updateOne({__id: new ObjectId(request.params.id)}, mongoObject);
+    let data = await db.collection("vehicles").updateOne({ __id: new ObjectId(request.params.id) }, mongoObject);
     response.json(data);
 });
 
@@ -72,7 +79,7 @@ vehicleRoutes.route("/vehicles/:id").put(verifyToken, async (request, response) 
 // #5: Delete One
 vehicleRoutes.route("/vehicles/:id").delete(verifyToken, async (request, response) => {
     let db = database.getDB();
-    let data = await db.collection("vehicles").deleteOne({__id: new ObjectId(request.params.id)});
+    let data = await db.collection("vehicles").deleteOne({ __id: new ObjectId(request.params.id) });
     response.json(data);
 });
 

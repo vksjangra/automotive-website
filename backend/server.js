@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const vehicles = require("./vehicleRoutes");
 const users = require("./userRoutes");
+const inquiries = require("./inquiryRoutes");
 require("dotenv").config({path: "./config.env"});
 
 const PORT = process.env.PORT;
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(vehicles);
 app.use(users);
+app.use(inquiries);
 
 
 app.listen(PORT || 3000, () => {

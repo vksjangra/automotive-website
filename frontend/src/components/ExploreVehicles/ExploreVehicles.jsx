@@ -33,9 +33,21 @@ const handleLink = (e) => {
 
 const ExploreVehicles = () => {
 
+    const [vehicleModalIsOpen, setVehicleModalIsOpen] = useState(false);
+    const [selectedVehicle, setSelectedVehicle] = useState(null);
+
+    function openVehicleModal(vehicle) {
+        setSelectedVehicle(vehicle);
+        setVehicleModalIsOpen(true);
+    };
+
+    function closeVehicleModal() {
+        setSelectedVehicle(null);
+        setVehicleModalIsOpen(false);
+    };
+
     const [data, setData] = useState();
 
-    const [selectedVehicle, setSelectedVehicle] = useState(null);
 
     useEffect(() => {
         const grabData = async () => {
@@ -81,7 +93,7 @@ const ExploreVehicles = () => {
             </div>
             <div ref={scrollRef} className="mt-10 flex overflow-x-auto scroll-smooth whitespace-nowrap no-scrollbar">
                 {data && data.map((vehicle, i) => (
-                    <div key={i} onClick={() => setSelectedVehicle(vehicle)}>
+                    <div key={i} onClick={() => openVehicleModal(vehicle)}>
                         <VehicleCard vehicle={vehicle}/>    
                     </div>
                 ))}
@@ -90,10 +102,11 @@ const ExploreVehicles = () => {
                 <button className="border border-gray-200 p-2 px-3 rounded-full cursor-pointer mr-2 hover:border-blue-500 transition duration-100" onClick={() => scroll("left")}><FaChevronLeft size={18}/></button>
                 <button className="border border-gray-200 p-2 px-3 rounded-full cursor-pointer hover:border-blue-500 transition duration-100" onClick={() => scroll("right")}><FaChevronRight size={18}/></button>
             </div>
-            <VehicleModal vehicle={selectedVehicle} onClose={() => setSelectedVehicle(null)}/>
+            <VehicleModal vehicle={selectedVehicle} vehicleModalIsOpen={vehicleModalIsOpen} closeVehicleModal={closeVehicleModal} />
             <div className="h-20"></div>
         </div>
     );
 };
 
 export default ExploreVehicles;
+
