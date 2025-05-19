@@ -4,27 +4,44 @@
 ### 1️⃣ Clone the Repo
 
 git clone https://github.com/vksjangra/automotive-website.git
+
 cd automotive-website
+
 cd backend
+
 npm install
 
 create config.env file with:
+
 ATLAS_URI=mongodb+srv://vikasjangraa:<password>@emailflowcluster.1rjtnpx.mongodb.net/?retryWrites=true&w=majority&appName=automotive
+
 PORT=3000
+
 SECRET_KEY=
 
+
+
 run backend server with:
+
 node server.js
 
 cd ../frontend
+
 npm install
 
 create .env file with:
+
 VITE_BACKEND_BASE_URL=http://localhost
+
 VITE_BACKEND_PORT=3000
 
+
+
 run with:
+
 npm run dev
+
+
 
 # 🚗 Automotive Dealership Website
 
